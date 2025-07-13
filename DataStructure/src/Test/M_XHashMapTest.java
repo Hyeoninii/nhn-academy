@@ -9,7 +9,7 @@ import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class XHashMapTest {
+class M_XHashMapTest {
     private XMap<String, Integer> map;
 
     @BeforeEach

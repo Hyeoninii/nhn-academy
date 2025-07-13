@@ -5,11 +5,10 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
 import java.util.Arrays;
-import java.util.List;
 import java.util.Comparator;
 import List.XLinkedList;
 
-public class XLinkedListTest {
+public class L_XLinkedListTest {
     private XLinkedList<Integer> list;
 
     @BeforeEach

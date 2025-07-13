@@ -17,7 +17,7 @@ import static org.junit.jupiter.api.Assertions.*;
  *
  * @author 작성자 이름
  */
-class XArrayMapTest {
+class M_XArrayMapTest {
     private XMap<String, Integer> map;
 
     /**
