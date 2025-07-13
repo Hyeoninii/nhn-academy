@@ -5,45 +5,53 @@ import java.util.HashSet;
 import java.util.Set;
 
 public class XArrayMap<K, V> implements XMap<K, V> {
-    Entry[] xMap;
+    Entry<K, V>[] xMap;
     int size;
+    
     public XArrayMap() {
         xMap = new Entry[10];
     }
 
     void checkLength() {
         if (xMap == null || size == xMap.length) {
-            int newSize = (xMap.length == 0) ? 10 : xMap.length * 2;
+            int newSize = 0;
+            if (xMap != null) {
+                newSize = (xMap.length == 0) ? 10 : xMap.length * 2;
+            }
             xMap = Arrays.copyOf(xMap, newSize);
         }
     }
+    
     void validateKey(K key) {
         if(key==null) {throw new NullPointerException();}
     }
+    
     void validateValue(V value) {
         if(value==null) {throw new NullPointerException();}
     }
 
     @Override
-    public void put(K key, V value) {
+    public V put(K key, V value) {
         validateKey(key);
         validateValue(value);
         for (int i = 0; i < size; i++) {
             if (xMap[i].key.equals(key)) {
+                V oldValue = xMap[i].value;
                 xMap[i].value = value;
-                return;
+                return oldValue;
             }
         }
         checkLength();
         xMap[size++] = new Entry<>(key, value);
+        return null;
     }
 
     @Override
     public V get(K key) {
-        for (Entry v : xMap) {
-            if (v == null) continue;
-            if (v.key.equals(key)) {
-                return (V) v.value;
+        validateKey(key);
+        for (int i = 0; i < size; i++) {
+            if (xMap[i].key.equals(key)) {
+                return xMap[i].value;
             }
         }
         return null;
@@ -51,9 +59,9 @@ public class XArrayMap<K, V> implements XMap<K, V> {
 
     @Override
     public boolean containsKey(K key) {
-        for (Entry v : xMap) {
-            if (v == null) continue;
-            if (v.key.equals(key)) {
+        validateKey(key);
+        for (int i = 0; i < size; i++) {
+            if (xMap[i].key.equals(key)) {
                 return true;
             }
         }
@@ -62,9 +70,9 @@ public class XArrayMap<K, V> implements XMap<K, V> {
 
     @Override
     public boolean containsValue(V value) {
-        for (Entry v : xMap) {
-            if (v == null) continue;
-            if (v.value.equals(value)) {
+        validateValue(value);
+        for (int i = 0; i < size; i++) {
+            if (xMap[i].value.equals(value)) {
                 return true;
             }
         }
@@ -73,9 +81,10 @@ public class XArrayMap<K, V> implements XMap<K, V> {
 
     @Override
     public V remove(K key) {
+        validateKey(key);
         for (int i = 0; i < size; i++) {
             if (xMap[i].key.equals(key)) {
-                V temp = (V) xMap[i].value;
+                V temp = xMap[i].value;
                 for (int j = i + 1; j < size; j++) {
                     xMap[j - 1] = xMap[j];
                 }
@@ -100,13 +109,12 @@ public class XArrayMap<K, V> implements XMap<K, V> {
 
     @Override
     public boolean isEmpty() {
-        if(size == 0) { return true; }
-        return false;
+        return size == 0;
     }
 
     @Override
-    public Set keySet() {
-        Set set = new HashSet();
+    public Set<K> keySet() {
+        Set<K> set = new HashSet<>();
         for (int i = 0; i < size; i++) {
             set.add(xMap[i].key);
         }
@@ -114,8 +122,8 @@ public class XArrayMap<K, V> implements XMap<K, V> {
     }
 
     @Override
-    public Set values() {
-        Set set = new HashSet();
+    public Set<V> values() {
+        Set<V> set = new HashSet<>();
         for (int i = 0; i < size; i++) {
             set.add(xMap[i].value);
         }
@@ -124,38 +132,13 @@ public class XArrayMap<K, V> implements XMap<K, V> {
 }
 
 class Entry<K, V> {
-    K  key;
+    K key;
     V value;
+    
     public Entry() {}
+    
     public Entry(K key, V value) {
         this.key = key;
         this.value = value;
-    }
-
-    public static void main(String[] args) {
-        XMap<String, Integer> map = new XArrayMap<>();
-
-// 요소 추가
-        map.put("Alice", 25);
-        map.put("Bob", 30);
-        map.put("Charlie", 35);
-        System.out.println(map.get("Alice")); // 출력: 25
-
-// 키 존재 여부 확인
-        System.out.println(map.containsKey("Bob")); // 출력: true
-        System.out.println(map.containsValue(40)); // 출력: false
-
-// 요소 삭제
-        map.remove("Charlie");
-        System.out.println(map.containsKey("Charlie")); // 출력: false
-
-// 모든 키와 값 출력
-        System.out.println("Keys: " + map.keySet()); // 출력: [Alice, Bob]
-        System.out.println("Values: " + map.values()); // 출력: [25, 30]
-
-// 전체 삭제 후 확인
-        map.clear();
-        System.out.println(map.isEmpty()); // 출력: true
-
     }
 }

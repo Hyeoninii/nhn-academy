@@ -118,7 +118,7 @@ public class XLinkedListTest {
     @Test
     void testAddAll() {
         list.add(10);
-        list.addAll((XLinkedList<Integer>) Arrays.asList(20, 30, 40));
+        list.addAll(new XLinkedList<>(Arrays.asList(20, 30, 40)));
 
         assertEquals(4, list.size());
         assertEquals(30, list.get(2));

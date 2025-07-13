@@ -82,8 +82,6 @@ public interface XList<T> {
      */
     XList<T> subList(int fromIndex, int toIndex);
 
-    void forEach();
-
     /**
      * 다른 리스트의 모든 요소를 추가합니다.
      *
