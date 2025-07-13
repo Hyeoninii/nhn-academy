@@ -1,5 +1,7 @@
 package Test;
 
+import Queue.XArrayQueue;
+import Queue.XLinkedQueue;
 import Queue.XQueue;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -10,7 +12,7 @@ import java.util.Iterator;
     /**
      * Unit tests for XQueue implementation.
      */
-public class XQueueTest {
+public class Q_XQueueTest {
         private XQueue<Integer> queue;
 
         @BeforeEach
@@ -102,5 +104,3 @@ public class XQueueTest {
             assertFalse(iterator.hasNext());
         }
     }
-
-}

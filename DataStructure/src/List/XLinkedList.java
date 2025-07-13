@@ -45,7 +45,9 @@ public class XLinkedList<T> implements XList<T> {
     @Override
     public void add(int index, T data) {
         validateNull(data);
-        validateIndex(index);
+        if(index > size || index < 0) {
+            throw new IndexOutOfBoundsException("Index: " + index + ", Size: " + size);
+        }
         Node<T> newNode = new Node<T>(data);
         if(index == 0) {
             newNode.next = first;
@@ -220,6 +222,7 @@ public class XLinkedList<T> implements XList<T> {
 
     @Override
     public void addAll(XList<T> otherList) {
+        if(otherList == null) {throw new NullPointerException();}
         otherList.forEach(this::add);
     }
 
@@ -233,10 +236,7 @@ public class XLinkedList<T> implements XList<T> {
 
     @Override
     public boolean isEmpty() {
-        if(size == 0 && first == null) {
-            return true;
-        }
-        return false;
+        return size == 0;
     }
 
     @Override
