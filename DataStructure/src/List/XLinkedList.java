@@ -23,7 +23,7 @@ public class XLinkedList<T> implements XList<T> {
         }
     }
     void validateNull(T data) {
-        if(data == null) { throw new IllegalArgumentException("Null element"); }
+        if(data == null) { throw new NullPointerException("Null element"); }
     }
 
     @Override
@@ -44,8 +44,8 @@ public class XLinkedList<T> implements XList<T> {
 
     @Override
     public void add(int index, T data) {
-        validateIndex(index);
         validateNull(data);
+        validateIndex(index);
         Node<T> newNode = new Node<T>(data);
         if(index == 0) {
             newNode.next = first;
@@ -117,7 +117,7 @@ public class XLinkedList<T> implements XList<T> {
         validateNull(elem);
         int index = 0;
         Node<T> temp = first;
-        while(!(temp.data.equals(elem))) {
+        while(temp != null && !(temp.data.equals(elem))) {
             temp = temp.next;
             index++;
         }
@@ -195,27 +195,20 @@ public class XLinkedList<T> implements XList<T> {
     public XLinkedList<T> subList(int fromIndex, int toIndex) {
         validateIndex(fromIndex);
         validateIndex(toIndex);
+        if (fromIndex > toIndex) {
+            throw new IllegalArgumentException("fromIndex > toIndex");
+        }
+        
         Node<T> temp = first;
         for(int i=0; i<fromIndex; i++) {
             temp = temp.next;
         }
         XLinkedList<T> subList = new XLinkedList<>();
-        for(int i=0; i<toIndex; i++) {
+        for(int i=0; i<toIndex-fromIndex; i++) {
             subList.add(temp.data);
+            temp = temp.next;
         }
         return subList;
-    }
-
-    @Override
-    public void forEach() {
-        for(Node<T> temp = first; temp != null; temp = temp.next) {
-            System.out.println(temp.data + " ");
-        }
-    }
-
-    @Override
-    public void addAll(XList<T> otherList) {
-        forEach(otherList::add);
     }
 
     @Override
@@ -224,6 +217,14 @@ public class XLinkedList<T> implements XList<T> {
             action.accept(temp.data);
         }
     }
+
+    @Override
+    public void addAll(XList<T> otherList) {
+        otherList.forEach(this::add);
+    }
+
+
+
 
     @Override
     public int size() {
@@ -247,8 +248,11 @@ public class XLinkedList<T> implements XList<T> {
     @Override
     public XLinkedList<T> copy() {
         XLinkedList<T> temp = new XLinkedList<T>();
-        temp.first = first;
-        temp.size = size;
+        Node<T> current = first;
+        while(current != null) {
+            temp.add(current.data);
+            current = current.next;
+        }
         return temp;
     }
 

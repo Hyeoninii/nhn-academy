@@ -138,13 +138,6 @@ public class XArrayList<T> implements XList<T> {
     }
 
     @Override
-    public void forEach() {
-        for(int i=0; i<length; i++) {
-            System.out.print(arrList[i]+" ");
-        }
-    }
-
-    @Override
     public void forEach(Consumer<T> action) {
         for(int i=0; i<length; i++) {
             action.accept(arrList[i]);

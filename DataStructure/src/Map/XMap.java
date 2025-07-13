@@ -10,7 +10,7 @@ public interface XMap<K, V> {
      * @param value 추가할 값
      * @return 이전에 해당 키에 매핑된 값, 없으면 null
      */
-    void put(K key, V value);
+    V put(K key, V value);
 
     /**
      * 지정된 키에 매핑된 값을 반환합니다.

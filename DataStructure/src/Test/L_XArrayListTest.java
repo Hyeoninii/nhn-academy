@@ -17,7 +17,7 @@ import static org.junit.jupiter.api.Assertions.*;
  *
  * @author 작성자 이름
  */
-class XArrayListTest {
+class L_XArrayListTest {
     private XArrayList<String> arrayList;
 
     /**

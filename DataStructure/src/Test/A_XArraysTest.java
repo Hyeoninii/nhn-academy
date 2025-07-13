@@ -4,7 +4,7 @@ import Array.XArrays;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
-public class XArraysTest {
+public class A_XArraysTest {
 
     // copy(int[] source) 테스트
     @Test
